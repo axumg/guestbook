@@ -1,11 +1,7 @@
-
 <template name="layout">
-  <body>
-  
-    <h1>Welcome to my Guest book</h1>
-    
-      {{>yield}}
-  
+  <body>  
+    <h1>Welcome to my Guest book</h1>    
+      {{>yield}}  
   </body>
 </template>
   
@@ -20,17 +16,14 @@
       <label for="guestBookMessage" style="display: block">Message</label>
         <textarea name="guestBookMessage" class="form-control" cols="30" row="3"></textarea>
     </div>
-    <button type="submit" class="btn-ptn-primary">Post Message</button>
-  
-</form>
-  
+    <button type="submit" class="btn-btn-primary">Post Message</button>  
+</form>  
   {{#each messages}}
     <p><a href="{{pathFor route='message.show'}}"><Strong>{{name}}</strong>: {{message}} - {{ createdOn }}</a></p>
   
   {{/each}}
   </div>
 </template> 
-
 
 <template name="about">
   <p>This is an app created for IT 328 in meteor</p>

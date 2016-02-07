@@ -1,8 +1,8 @@
 Messages = new Mongo.Collection('messages');
 
 Router.route('/', function () {
-  this.render('guestBook'); //render guestbook template
-  this.layout('layout');    //set the main Layout template  
+  this.render('guestBook'); 
+  this.layout('layout');    
   });
 
 Router.route('/about', function () {
@@ -15,79 +15,65 @@ Router.route('/messages/:_id', function () {
     data: function (){
       return Messages.findOne({_id: this.params._id});
     }
-  });
-  
+  });  
     this.layout('layout');
-  }, {
+    },
+    {
     name: 'message.show'
   });
 
-
-if (Meteor.isClient) {
+if (Meteor.isClient) {  
+  Meteor.subscribe("messages"); 
   
-  Meteor.subscribe("messages"); //every client created will subscribe
-  
-  Template.guestBook.helpers({ //go to the Template called guestBook
-    "messages":function () {
+  Template.guestBook.helpers({ 
+    'messages':function () {
       return Messages.find({}, {sort: {createdOn: -1}}) || {};
       }
-    });
+    });  
   
-  
-  Template.guestBook.events(
-    {   //events takes an object, this is an object
-      "submit form": function(event)
-      {
-        event.preventDefault();
-        //alert('You clicked submit!');
-        
-        //find the textarea with jQuery
-        var messageBox =
-        $(event.target).find('textarea[name=guestBookMessage]');
-        
-        
-        var messageText = messageBox.val();
-        
-        var nameBox = $(event.target).find('input[name=guestName]');
-        var name = nameBox.val();
-        
-        Messages.insert({message: messageText, name: name, createdOn: Date.now()});
-        messageBox.val('');
-        nameBox.val('');
-        
-        if (nameText.length > 0 &&
-            messageText.length > 0)
-           {
+  Template.guestBook.events({  
+      'submit form': function(event) {
+          event.preventDefault();
           
-          Messages.insert(              
-              {
-                name: nameText,
-                message: messageText,
-                createdOn: Date.now()
-              });        
+          var messageBox =
+          $(event.target).find('textarea[name=guestBookMessage]');       
+          var messageText = messageBox.val();
         
-              nameBox.val("");
-              messageBox.val("");
-           }
-           else {
-            //alert("Name and Message are both required.");
-            console.log(messageBox);
-            messageBox.classList.add("has-warning");
+          var nameBox = $(event.target).find('input[name=guestName]');
+          var name = nameBox.val();
+        
+          Messages.insert({message: messageText, name: name, createdOn: Date.now()});
+          messageBox.val('');
+          nameBox.val('');
+        
+        //if (nameText.length > 0 &&
+       //     messageText.length > 0)
+         //  {
+          
+        //  Messages.insert(              
+          //    {
+          //      name: nameText,
+          //      message: messageText,
+          //    createdOn: Date.now()
+           //   });        
+        
+          //    nameBox.val("");
+          //    messageBox.val("");
+          // }
+          // else {
+            
+          //  console.log(messageBox);
+          //  messageBox.classList.add("has-warning");
            
-           }
+          // }
         
-      }
-    
-    }
-  );
-}
-  
-
+      }    
+    });
+} 
 
 if (Meteor.isServer) {
  Meteor.startup(function () {
- });
-   
+ });   
   Meteor.publish("messages", function (){
     return Messages.find();
   });
