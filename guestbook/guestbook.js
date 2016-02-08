@@ -46,26 +46,26 @@ if (Meteor.isClient) {
           messageBox.val('');
           nameBox.val('');
         
-        //if (nameText.length > 0 &&
-       //     messageText.length > 0)
-         //  {
+        if (nameText.length > 0 &&
+            messageText.length > 0)
+          {
           
-        //  Messages.insert(              
-          //    {
-          //      name: nameText,
-          //      message: messageText,
-          //    createdOn: Date.now()
-           //   });        
+          Messages.insert(              
+              {
+                name: nameText,
+                message: messageText,
+              createdOn: Date.now()
+              });        
         
-          //    nameBox.val("");
-          //    messageBox.val("");
-          // }
-          // else {
+              nameBox.val("");
+              messageBox.val("");
+           }
+           else {
             
-          //  console.log(messageBox);
-          //  messageBox.classList.add("has-warning");
+            console.log(messageBox);
+            messageBox.classList.add("has-warning");
            
-          // }
+           }
         
       }    
     });
