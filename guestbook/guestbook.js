@@ -42,38 +42,18 @@ if (Meteor.isClient) {
           var nameBox = $(event.target).find('input[name=guestName]');
           var name = nameBox.val();
         
-          Messages.insert({message: messageText, name: name, createdOn: Date.now()});
           messageBox.val('');
           nameBox.val('');
-        
-        if (nameText.length > 0 &&
-            messageText.length > 0)
-          {
           
-          Messages.insert(              
-              {
-                name: nameText,
-                message: messageText,
-              createdOn: Date.now()
-              });        
-        
-              nameBox.val("");
-              messageBox.val("");
-           }
-           else {
-            
-            console.log(messageBox);
-            messageBox.classList.add("has-warning");
-           
-           }
-        
+          Tasks.remove(this_id);
       }    
-    });
+    });  
 } 
 
 if (Meteor.isServer) {
- Meteor.startup(function () {
- });   
+ Meteor.startup(function() {
+  });  
+  
   Meteor.publish("messages", function (){
     return Messages.find();
   });
